@@ -1,0 +1,17 @@
+<h3>Clone this Repository</h3>
+
+```shell
+git clone [this_project_remote_repository]
+```
+
+<h3>Install the appropriate Dependencies</h3>
+
+```shell
+npm i
+```
+
+<h3>Run it</h3>
+
+```shell
+npm start
+```
