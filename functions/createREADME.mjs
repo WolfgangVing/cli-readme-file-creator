@@ -2,7 +2,6 @@ import fs from "fs"
 import { formaterMap } from "../formaterMap.mjs"
 import { ReadPattern } from "./readPattern.mjs";
 
-
 /**
  * Passed the template object with it will create an text and then generate the README.md
  * @param {{title: String, about: String, license: string, tech: String[]}} template

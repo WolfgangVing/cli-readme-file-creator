@@ -1,17 +1,17 @@
 {
-  "name": "cli-readme-file-creator",
+  "name": "@yuricss/cli-readme-file-creator",
   "version": "1.0.0",
   "description": "This project aim to automatize the hassle of creating README.md for every new project you aim to put in GitHub",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "readme": "./index.js"
+    "readme": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["cli", "documentation"],
+  "author": "Yuri Cruz Soares da Silva <yuri.css.dev@hotmail.com>",
   "license": "MIT",
   "dependencies": {
     "chalk": "^5.0.1",
@@ -23,5 +23,14 @@
     "inquirer": "^8.2.4",
     "inquirer-search-checkbox": "^1.0.0",
     "nanospinner": "^1.1.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WolfgangVing/cli-readme-file-creator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/WolfgangVing/cli-readme-file-creator/issues"
+  },
+  "homepage": "https://github.com/WolfgangVing/cli-readme-file-creator#readme"
 }

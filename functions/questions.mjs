@@ -2,7 +2,7 @@ import inquirer from "inquirer";
 import { createSpinner } from "nanospinner";
 import fs from "node:fs/promises"
 import SearchBox from "inquirer-search-checkbox";
-import { type } from "node:os";
+import Path from "path"
 
 export async function askTitle(model, defaultTitle) {
     const answer = await inquirer.prompt({
@@ -63,7 +63,7 @@ export async function askLicense(model, defaultLicense) {
 
     if(answer.readme_license === defaultLicense) {
         model.license = await (async ()=>{
-            const license = await fs.readFile("./LICENSE.txt", "utf8")
+            const license = await fs.readFile(Path.resolve("node_modules", "cli-readme-file-creator", "./LICENSE.txt"), "utf8")
             return license.slice(0, 59)
         })()
         return
@@ -74,7 +74,7 @@ export async function askLicense(model, defaultLicense) {
 
 export async function askTechnologies(model) {
     inquirer.registerPrompt("search-checkbox", SearchBox)
-    const choices = await fs.readFile("./listOfTechs.json", "utf-8");
+    const choices = await fs.readFile(Path.resolve("node_modules", "cli-readme-file-creator", "listOfTechs.json"), "utf-8");
     const obj = JSON.parse(choices)
     
     const answer = await inquirer.prompt({
@@ -102,7 +102,7 @@ export async function askInstructions(model) {
     })
 
     if(choice.readme_instructions){
-        model.instructions = await fs.readFile("./pattern/BasicInstructions.txt", "utf-8")
+        model.instructions = await fs.readFile(Path.resolve("node_modules", "cli-readme-file-creator", "pattern", "BasicInstructions.txt"), "utf-8")
     } else {
         model.instructions = await(async () => {
             let isFinished = false

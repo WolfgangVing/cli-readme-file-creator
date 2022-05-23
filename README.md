@@ -34,10 +34,10 @@ At this moment I'm not aiming for full fledge cli program, but I think if I keep
 <h3>Clone this Repository</h3>
 
 ```shell
-git clone [this_project_remote_repository]
+npm i @yuricss/cli-readme-file-creator --save-dev
 ```
 
-<h3>Install the appropriate Dependencies at global</h3>
+<h3>Install the dependencies</h3>
 
 ```shell
 npm i -g
@@ -46,7 +46,7 @@ npm i -g
 <h3>Run it</h3>
 
 ```shell
-readme
+npx cli-readme-file-creator
 ```
 
 
