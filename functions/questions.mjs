@@ -51,19 +51,20 @@ export async function askDescription(model, defaultAbout) {
     model.about = write.write_about
 }
 
+// TODO: Create a pattern of license to be like the default of a npm init (ISC), then consume the param defaultLicense.
 export async function askLicense(model, defaultLicense) {
     const answer = await inquirer.prompt({
         name: "readme_license",
         type: "input",
         message: "To Finish what is the license ?",
         default() {
-            return `${defaultLicense}`
+            return `MIT`
         }
     })
 
     if(answer.readme_license === defaultLicense) {
         model.license = await (async ()=>{
-            const license = await fs.readFile(Path.resolve("node_modules", "cli-readme-file-creator", "./LICENSE.txt"), "utf8")
+            const license = await fs.readFile(Path.resolve("node_modules", "@yuricss",  "cli-readme-file-creator", "pattern","./LICENSE.txt"), "utf8")
             return license.slice(0, 59)
         })()
         return
@@ -74,7 +75,7 @@ export async function askLicense(model, defaultLicense) {
 
 export async function askTechnologies(model) {
     inquirer.registerPrompt("search-checkbox", SearchBox)
-    const choices = await fs.readFile(Path.resolve("node_modules", "cli-readme-file-creator", "listOfTechs.json"), "utf-8");
+    const choices = await fs.readFile(Path.resolve("node_modules", "@yuricss", "cli-readme-file-creator", "pattern", "listOfTechs.json"), "utf-8");
     const obj = JSON.parse(choices)
     
     const answer = await inquirer.prompt({
@@ -102,7 +103,7 @@ export async function askInstructions(model) {
     })
 
     if(choice.readme_instructions){
-        model.instructions = await fs.readFile(Path.resolve("node_modules", "cli-readme-file-creator", "pattern", "BasicInstructions.txt"), "utf-8")
+        model.instructions = await fs.readFile(Path.resolve("node_modules", "@yuricss", "cli-readme-file-creator", "pattern", "BasicInstructions.txt"), "utf-8")
     } else {
         model.instructions = await(async () => {
             let isFinished = false

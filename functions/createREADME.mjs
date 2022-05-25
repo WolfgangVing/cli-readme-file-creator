@@ -1,5 +1,5 @@
 import fs from "fs"
-import { formaterMap } from "../formaterMap.mjs"
+import { formaterMap } from "../pattern/formaterMap.mjs"
 import { ReadPattern } from "./readPattern.mjs";
 
 /**

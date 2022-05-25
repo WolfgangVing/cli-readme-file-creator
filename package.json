@@ -1,6 +1,6 @@
 {
   "name": "@yuricss/cli-readme-file-creator",
-  "version": "1.0.0",
+  "version": "0.7.0",
   "description": "This project aim to automatize the hassle of creating README.md for every new project you aim to put in GitHub",
   "main": "index.js",
   "type": "module",
@@ -10,7 +10,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["cli", "documentation"],
+  "keywords": [
+    "cli",
+    "documentation"
+  ],
   "author": "Yuri Cruz Soares da Silva <yuri.css.dev@hotmail.com>",
   "license": "MIT",
   "dependencies": {

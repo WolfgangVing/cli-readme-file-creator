@@ -9,6 +9,6 @@ import Path from "path"
  */
 
 export const ReadPattern = async (pattern) => {
-    const template = await fs.readFile(Path.resolve("node_modules", "cli-readme-file-creator", "pattern", `${pattern}.txt`), "utf-8")
+    const template = await fs.readFile(Path.resolve("node_modules", "@yuricss", "cli-readme-file-creator", "pattern", `${pattern}.txt`), "utf-8")
     return template
 }
