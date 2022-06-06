@@ -21,6 +21,7 @@ At the current stage, 23/05/2022, you only has one template at your disposal, bu
 That is a possibility of change some interactivity at some steps during updates.
 At this moment I'm not aiming for full fledge cli program, but I think if I keep have ideas and others too it might grow to it.
 
+This README.md was firstly generated with this.
 <h2 id="techs">Technologies & Tools</h2>
 
 | Technologies |
@@ -29,33 +30,61 @@ At this moment I'm not aiming for full fledge cli program, but I think if I keep
 | Node.js |
 
 
-<h2 id="instructions">Instructions</h2>
+<h2 id="instructions">Installation's Instruction</h2>
 
-<h3>Clone this Repository</h3>
+***__At this moment, this program will only work when run at an interactive shell__***
+
+At this moment, it's advised to install at the global modules, this way you can run the aliases at every project folder, regardless of the
+dependencies being installed at your currently project.
+
+1. <h3>  Install globally</h3>
+
+```shell
+npm i @yuricss/cli-readme-file-creator -g
+```
+
+2. <h3>Run</h3>
+
+```shell
+readme
+```
+
+<br>
+
+
+But, even so you feel like this wouldn't be worth and just want to try it follow bellow.
+
+1. 2. <h3>Install as dev dependency</h3>
 
 ```shell
 npm i @yuricss/cli-readme-file-creator --save-dev
-```
+``` 
 
-<h3>Install the dependencies</h3>
-
-```shell
-npm i -g
-```
-
-<h3>Run it</h3>
+2. 2. <h3>Run</h3>
 
 ```shell
-npx cli-readme-file-creator
-```
+npx @yuricss/cli-readme-file-creator
+``` 
 
+--- 
+3. <h3>Instructions regarding the program</h3>
 
+<br/>
 
----
+1. When the question shows up answer it with the instructions showed in windows
 
+2. You can rather pick the an Lorem Ipsum of ~130 letters or Writing you own Description.
+![Writing your own description](images/4.JPG)
+
+3. During the step of selecting the technologies you can search by writing the name of it, there is 32 languages, frameworks and tools at this moment.
+![Technologies Image](images/2.JPG)
+
+4. At least the license, at this moment, there is only MIT available, it will pick the project's name and author in package.json.
+
+![README Being Generated](images/3.JPG)
 
 <h2 id="license">License</h2>
 
-MIT License
+[MIT](LICENSE.txt) License
 
 Copyright (c) 2022 Yuri Cruz Soares da Silva

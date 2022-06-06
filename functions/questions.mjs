@@ -1,8 +1,8 @@
 import inquirer from "inquirer";
-import { createSpinner } from "nanospinner";
 import fs from "node:fs/promises"
 import SearchBox from "inquirer-search-checkbox";
 import Path from "path"
+
 
 export async function askTitle(model, defaultTitle) {
     const answer = await inquirer.prompt({
@@ -13,7 +13,7 @@ export async function askTitle(model, defaultTitle) {
             return `${defaultTitle}`
         }
     })
-    
+
     model.title = answer.readme_title
 }
 
@@ -39,8 +39,8 @@ export async function askDescription(model, defaultAbout) {
             "Default", "Let's write this down."
         ]
     })
-    
-    if(choices.about_choices === "Default") {
+
+    if (choices.about_choices === "Default") {
         return model.about = defaultAbout
     }
     const write = await inquirer.prompt({
@@ -53,6 +53,7 @@ export async function askDescription(model, defaultAbout) {
 
 // TODO: Create a pattern of license to be like the default of a npm init (ISC), then consume the param defaultLicense.
 export async function askLicense(model, defaultLicense) {
+
     const answer = await inquirer.prompt({
         name: "readme_license",
         type: "input",
@@ -62,12 +63,18 @@ export async function askLicense(model, defaultLicense) {
         }
     })
 
-    if(answer.readme_license === defaultLicense) {
-        model.license = await (async ()=>{
-            const license = await fs.readFile(Path.resolve("node_modules", "@yuricss",  "cli-readme-file-creator", "pattern","./LICENSE.txt"), "utf8")
-            return license.slice(0, 59)
+    if (answer.readme_license === defaultLicense) {
+        const name = JSON.parse(await fs.readFile('./package.json', "utf-8")).author
+        const year = new Date().getFullYear()
+
+
+        model.license = (async () => {
+            let unformattedLicense = await import("mdPattern.mjs")
+            import("../pattern/mdPatterns.mjs").then(({ DefaultLicense }) => {
+                unformattedLicense = DefaultLicense
+            })
+            return unformattedLicense.slice(0, 59)
         })()
-        return
     }
 
     model.license = answer.readme_license
@@ -75,18 +82,19 @@ export async function askLicense(model, defaultLicense) {
 
 export async function askTechnologies(model) {
     inquirer.registerPrompt("search-checkbox", SearchBox)
-    const choices = await fs.readFile(Path.resolve("node_modules", "@yuricss", "cli-readme-file-creator", "pattern", "listOfTechs.json"), "utf-8");
-    const obj = JSON.parse(choices)
-    
+    // const choices = await fs.readFile(Path.resolve("./", "pattern", "listOfTechs.json"), "utf-8"); //Uncomment only when testing locally
+    // //const choices = await fs.readFile(Path.resolve("node_modules", "@yuricss", "cli-readme-file-creator", "pattern", "listOfTechs.json"), "utf-8"); //Comment when testing locally
+    // const obj = JSON.parse(choices)
+
     const answer = await inquirer.prompt({
         name: "readme_technologies",
         type: "search-checkbox",
         message: "Select this Project Technologies.",
-        choices: obj.options
+        choices: options
     })
 
-    model.techs = (function(arr) {
-        const formatArr = arr.map((tech, index) => {
+    model.techs = (function (arr) {
+        const formatArr = arr.map((tech) => {
             return `| ${tech} |`
         })
         const title = `| Technologies |\r\n|:---:|\r\n`
@@ -102,10 +110,11 @@ export async function askInstructions(model) {
         default: true
     })
 
-    if(choice.readme_instructions){
-        model.instructions = await fs.readFile(Path.resolve("node_modules", "@yuricss", "cli-readme-file-creator", "pattern", "BasicInstructions.txt"), "utf-8")
+    if (choice.readme_instructions) {
+        const { BasicInstructions } = await import("../pattern/BasicInstructions.mjs")
+        model.instructions = BasicInstructions
     } else {
-        model.instructions = await(async () => {
+        model.instructions = await (async () => {
             let isFinished = false
             const instructions = []
 
@@ -115,21 +124,21 @@ export async function askInstructions(model) {
                 message: "How much steps would like to have ?, Don't worry you will be asked if you want to make more steps",
                 default: 2
             })).quantity)
-            
+
             for (let i = 1; i <= howManySteps && !isFinished; i++) {
                 const step = await writeStep(i)
-                if(await isCodeLine()) instructions.push(step.concat("\r\n", await writeCodeLine()))
+                if (await isCodeLine()) instructions.push(step.concat("\r\n", await writeCodeLine()))
                 // console.log(`i: ${i}, howManySteps: ${howManySteps}`)
                 // console.log(typeof i, typeof howManySteps, i === howManySteps)
-                if(i === howManySteps) {
+                if (i === howManySteps) {
                     isFinished = (await inquirer.prompt({
-                        name:"isFinished",
-                        type:"confirm",
+                        name: "isFinished",
+                        type: "confirm",
                         message: "Are you satisfied ?",
                         default: true
                     })).isFinished
 
-                    if(!isFinished) {
+                    if (!isFinished) {
                         i = 0
                         howManySteps = (await inquirer.prompt({
                             name: "newSteps",
@@ -146,7 +155,7 @@ export async function askInstructions(model) {
     }
 }
 
-async function isCodeLine () {
+async function isCodeLine() {
     const answer = await inquirer.prompt({
         name: "answer_codeLine",
         type: "confirm",
@@ -166,9 +175,44 @@ async function writeStep(step) {
 }
 async function writeCodeLine() {
     const answer = await inquirer.prompt({
-        name:"codeLine",
-        type:"input",
+        name: "codeLine",
+        type: "input",
         message: "Write the code line"
     })
     return `\`\`\`\r\n${answer.codeLine}\r\n\`\`\``
 }
+
+const options = [
+    { "name": "Javascript", "value": "Javascript" },
+    { "name": "Node.js", "value": "Node.js" },
+    { "name": "C#", "value": "C#" },
+    { "name": ".NET", "value": ".NET" },
+    { "name": "Java", "value": "Java" },
+    { "name": "PHP", "value": "PHP" },
+    { "name": "Go", "value": "Go" },
+    { "name": "C++", "value": "C++" },
+    { "name": "C", "value": "C" },
+    { "name": "HTML5", "value": "HTML5" },
+    { "name": "CSS3", "value": "CSS3" },
+    { "name": "SASS/SCSS", "value": "SASS/SCSS" },
+    { "name": "React", "value": "React" },
+    { "name": "Vue.js", "value": "Vue.js" },
+    { "name": "Angular", "value": "Angular" },
+    { "name": "Next.js", "value": "Next.js" },
+    { "name": "Nuxt.js", "value": "Nuxt.js" },
+    { "name": "Tailwind", "value": "Tailwind" },
+    { "name": "ReactNative", "value": "ReactNative" },
+    { "name": "Deno", "value": "Deno" },
+    { "name": "Vite", "value": "Vite" },
+    { "name": "Webpack", "value": "Webpack" },
+    { "name": "Gulp", "value": "Gulp" },
+    { "name": "Jest", "value": "Jest" },
+    { "name": "Mocha", "value": "Mocha" },
+    { "name": "PostgreSQL", "value": "PostgreSQL" },
+    { "name": "MySQL", "value": "MySQL" },
+    { "name": "LiteSQL", "value": "LiteSQL" },
+    { "name": "SQLServer", "value": "SQLServer" },
+    { "name": "MariaDB", "value": "MariaDB" },
+    { "name": "MongoDB", "value": "Cassandra" },
+    { "name": "Apache Cassandra", "value": "Apache Cassandra" }
+]
