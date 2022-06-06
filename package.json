@@ -1,6 +1,6 @@
 {
   "name": "@yuricss/cli-readme-file-creator",
-  "version": "0.7.1",
+  "version": "0.8.0",
   "description": "This project aim to automatize the hassle of creating README.md for every new project you aim to put in GitHub",
   "main": "index.js",
   "type": "module",
